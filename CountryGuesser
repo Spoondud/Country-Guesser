@@ -1,0 +1,24 @@
+#Ran in Jupyter Server
+import time
+import csv
+import pandas as pd 
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+Happiness_data = pd.read_csv("2019.csv")
+
+print("This is a experimental program that will try to detect where you live out of almost 200 countries based on happiness and GDP\nBe very specific with your answers(use decimal places)")
+time.sleep(2)
+sc = int(float(input("On a scale of 1 - 10, how happy are you ")))
+gdp1 = int(float(input("On a scale of 1 - 10, how high is your country's GDP ")))
+gdp = int(gdp1) *.17
+
+X = Happiness_data.drop(columns = "Country or region").drop(columns = "Overall rank").drop(columns = "Generosity").drop(columns = "Freedom to make life choices").drop(columns = "Healthy life expectancy").drop(columns = "Social support").drop(columns = "Perceptions of corruption")
+y = Happiness_data["Country or region"]
+
+model = DecisionTreeClassifier()
+model.fit(X, y)
+
+predictions = model.predict([[sc, gdp]])
+print("There is a possibility that you live in {}".format(predictions))
